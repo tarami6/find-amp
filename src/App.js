@@ -23,11 +23,12 @@ class App extends Component {
   };
 
   setpointLocation = point => {
+
     const { X_Coordinate, Y_Coordinate } = point;
     this.setState({
       pointLocation: {
-        long: X_Coordinate ? X_Coordinate : 32,
-        lat: Y_Coordinate ? Y_Coordinate : 35
+        long:  X_Coordinate ,
+        lat:  Y_Coordinate
       }
     });
   };

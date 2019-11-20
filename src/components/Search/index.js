@@ -25,35 +25,35 @@ const Search = props => {
   const [address, setAddress] = useState("");
   const [atmsList, setAtmsList] = useState([]);
 
-  let search = text =>
-    axios
-      .get(
-        `https://data.gov.il/api/3/action/datastore_search?resource_id=b9d690de-0a9c-45ef-9ced-3e5957776b26&q=${text}`
-      )
-      .then(function(response) {
-        // handle success
-        console.log(response.data.result.records);
-        setAtmsList(response.data.result.records);
-        setAllMarkers(response.data.result.records);
-        setpointLocation();
-      })
-      .catch(function(error) {
-        // handle error
-        console.log(error);
-      });
+
 
   useEffect(() => {
-    console.log("address", address);
-    if (address.length > 1) search(address);
+    if (address.length > 1){
+        const search =  (text) =>
+            axios
+                .get(
+                    `https://data.gov.il/api/3/action/datastore_search?resource_id=b9d690de-0a9c-45ef-9ced-3e5957776b26&q=${text}`
+                )
+                .then(function(response) {
+                    let {records} = response.data.result
+                    // handle success
+                    setAtmsList(records);
+                    setAllMarkers(records);
+                    setpointLocation({X_Coordinate:32, Y_Coordinate:35});
+                })
+                .catch(function(error) {
+                    // handle error
+                    console.log(error);
+                });
+        search(address)
+    }
     else {
       setAtmsList([]);
-      setAllMarkers([]);
     }
-  }, [address]);
+  }, [address,setpointLocation, setAllMarkers]);
 
-  let pointLoction = point => {
-    console.log("point", point);
-  };
+
+
 
   return (
     <Grid item sm={12} xs={12} md={4} lg={4}>
