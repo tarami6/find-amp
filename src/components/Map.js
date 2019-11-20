@@ -9,42 +9,63 @@ const customIcon = L.icon({
     iconAnchor: [17, 46]
 });
 
-class Map extends Component{
+class Map extends Component {
 
+    constructor(props) {
+        super(props)
+        this.state = {
+            center: {
+                long: this.props.center.long,
+                lat: this.props.center.lat
+            }
+        }
 
+        this.fewMarkers = this.fewMarkers.bind(this)
 
-    componentDidMount(){
-        this.map = L.map('map', {
-            center: [32, 35],
-            zoom: 8,
-            zoomControl: false,
-            zoomAnimationThreshold: 10
+    }
+
+componentDidMount() {
+    this.map = L.map('map', {
+        center: [this.state.center.long, this.state.center.lat],
+        zoom: 8,
+        zoomControl: false,
+        zoomAnimationThreshold: 10
+    })
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        detectRetina: true,
+        maxZoom: 20,
+        maxNativeZoom: 17
+    }).addTo(this.map)
+}
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        if (this.props.center.long != nextProps.center.long || this.props.center.lat != nextProps.center.lat) {
+            this.map.setView([nextProps.center.lat, nextProps.center.long], 20);
+        }
+        if (nextProps.markes !== this.props.markers) {
+            this.fewMarkers(nextProps.markers)
+        }
+    }
+
+     fewMarkers (markers)  {
+        markers.forEach((mark, index) => {
+            if (mark && mark.Y_Coordinate && mark.X_Coordinate)
+                L.marker([mark.Y_Coordinate, mark.X_Coordinate], {icon: customIcon}).addTo(this.map)
         })
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            detectRetina: true,
-            maxZoom: 20,
-            maxNativeZoom: 17
-        }).addTo(this.map)
-        this.fewMarkers()
-    }
-
-     fewMarkers = () => {
-        L.marker([31.795554, 34.639519], {icon: customIcon}).addTo(this.map)
-        L.marker([32.086067, 34.886827], {icon: customIcon}).addTo(this.map)
-    }
-
-    showLocation = () => {
-        this.map.setView([32, 35], 14);
-    }
-    showLocation2 = () => {
-        this.map.setView([32, 35], 8);
     }
 
     render() {
+
         return (
-            <Grid item xs={8} sm={8} >
-            <div style={{width: '100%', height: '80vh',border: "1px solid lightGrey",boxShadow: "#c6c4c4 1px 0px 10px 1px", borderRadius: "10px"}} id={'map'}/>
+            <Grid item sm={12}  xs={12} md={8} lg={8}>
+                <div
+                    style={{
+                        width: '100%',
+                        height: '80vh',
+                        border: "1px solid lightGrey",
+                        boxShadow: "#c6c4c4 1px 0px 10px 1px",
+                        borderRadius: "10px"
+                    }} id={'map'}/>
             </Grid>
         );
     }

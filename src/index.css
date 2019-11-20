@@ -18,3 +18,13 @@ code {
 .list{
   height: 70vh!important;
 }
+
+
+@media only screen and (max-width: 959px) {
+  .MuiGrid-root.MuiGrid-container.MuiGrid-spacing-xs-3.MuiGrid-justify-xs-center {
+    flex-direction: column-reverse !important;
+  }
+  div#map {
+    height: 45vh !important;
+  }
+}
