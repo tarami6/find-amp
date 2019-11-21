@@ -13,7 +13,7 @@ import rtl from "jss-rtl";
 import axios from "axios";
 
 import RenderRow from "./RenderRow";
-
+//For RTL IN textfield label
 const theme = createMuiTheme({
   direction: "rtl"
 });
@@ -25,35 +25,29 @@ const Search = props => {
   const [address, setAddress] = useState("");
   const [atmsList, setAtmsList] = useState([]);
 
-
-
   useEffect(() => {
-    if (address.length > 1){
-        const search =  (text) =>
-            axios
-                .get(
-                    `https://data.gov.il/api/3/action/datastore_search?resource_id=b9d690de-0a9c-45ef-9ced-3e5957776b26&q=${text}`
-                )
-                .then(function(response) {
-                    let {records} = response.data.result
-                    // handle success
-                    setAtmsList(records);
-                    setAllMarkers(records);
-                    setpointLocation({X_Coordinate:32, Y_Coordinate:35});
-                })
-                .catch(function(error) {
-                    // handle error
-                    console.log(error);
-                });
-        search(address)
-    }
-    else {
+    if (address.length > 1) {
+      const search = text =>
+        axios
+          .get(
+            `https://data.gov.il/api/3/action/datastore_search?resource_id=b9d690de-0a9c-45ef-9ced-3e5957776b26&q=${text}`
+          )
+          .then(function(response) {
+            let { records } = response.data.result;
+            // handle success
+            setAtmsList(records);
+            setAllMarkers(records);
+            setpointLocation({ X_Coordinate: 32, Y_Coordinate: 35 });
+          })
+          .catch(function(error) {
+            // handle error
+            console.log(error);
+          });
+      search(address);
+    } else {
       setAtmsList([]);
     }
-  }, [address,setpointLocation, setAllMarkers]);
-
-
-
+  }, [address, setpointLocation, setAllMarkers]);
 
   return (
     <Grid item sm={12} xs={12} md={4} lg={4}>

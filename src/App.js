@@ -21,14 +21,13 @@ class App extends Component {
   setAllMarkers = arr => {
     this.setState({ allMarkers: arr });
   };
-
+  //set the point location for choosing the atm
   setpointLocation = point => {
-
     const { X_Coordinate, Y_Coordinate } = point;
     this.setState({
       pointLocation: {
-        long:  X_Coordinate ,
-        lat:  Y_Coordinate
+        long: X_Coordinate,
+        lat: Y_Coordinate
       }
     });
   };
