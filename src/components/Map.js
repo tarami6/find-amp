@@ -49,9 +49,10 @@ class Map extends Component {
 
     fewMarkers(markers) {
         markers.forEach(mark => {
-            L.marker([mark.Y_Coordinate, mark.X_Coordinate], {
-                icon: customIcon
-            }).addTo(this.map);
+            if (mark.Y_Coordinate && mark.X_Coordinate)
+                L.marker([mark.Y_Coordinate, mark.X_Coordinate], {
+                    icon: customIcon
+                }).addTo(this.map);
         });
     }
 
